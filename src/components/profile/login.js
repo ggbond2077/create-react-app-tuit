@@ -7,7 +7,9 @@ export const Login = () => {
     const navigate = useNavigate();
     const login = () =>
         service.login(loginUser)
-            .then((user) => navigate(`/profile/${user.username}/mytuits`))
+            .then((user) => {
+                navigate(`/profile/${user.username}`)
+            })
             .catch(e => alert(e));
     return (
         <div>

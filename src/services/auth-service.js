@@ -28,5 +28,5 @@ export const login = (credentials) =>
         .then(response => response.data);
 
 export const findUser = (username) =>
-    api.get(`${BASE_URL}/api/users/username/:username`,username)
+    api.get(`${BASE_URL}/api/users/username/${username}`)
         .then(response=>response.data);

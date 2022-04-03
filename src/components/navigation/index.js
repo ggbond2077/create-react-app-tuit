@@ -14,7 +14,7 @@ function Navigation() {
     } catch (e) {
       navigate('/login');
     }
-  }, []);
+  }, [pathname]);
 
   // console.log(location.pathname);
   const links = [
@@ -25,7 +25,7 @@ function Navigation() {
     {label: 'Messages', icon: 'fa-envelope', path: '/messages'},
     {label: 'Bookmarks', icon: 'fa-bookmark', path: '/bookmarks'},
     {label: 'Lists', icon: 'fa-list', path: '/lists'},
-    {label: 'Profile', icon: 'fa-user', path: `/profile/${profile.username}`},
+    {label: 'Profile', icon: 'fa-user', path: `/profile${profile ? "/" + profile.username : ""}`},
     {label: 'More', icon: 'fa-circle-ellipsis', path: '/more'},
     {label: 'Login', icon: 'fa-user', path: '/login'},
     {label: 'Signup', icon: 'fa-user', path: '/signup'}

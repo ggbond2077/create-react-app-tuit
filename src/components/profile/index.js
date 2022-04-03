@@ -22,21 +22,15 @@ const Profile = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [profile, setProfile] = useState({});
-    const uName = username;
-
+    const [currentUser, setCurrentUser] = useState({});
     useEffect(async () => {
-
         try {
-                // let user = null;
-                // if(username===null){
-                    const user = await service.profile();
-                // }else{
-                //     user = await service.findUser(uName);
-                // }
-
-                setProfile(user);
-
-
+            let user = await service.profile();
+            setCurrentUser(user);
+            if (username !== user.username) {
+                user = await service.findUser(username);
+            }
+            setProfile(user);
         } catch (e) {
             navigate('/login');
         }
@@ -45,7 +39,7 @@ const Profile = () => {
         service.logout()
             .then(() => navigate('/login'));
     }
-    return(
+    return (
         <div className="ttr-profile">
             <div className="border border-bottom-0">
                 <h4 className="p-2 mb-0 pb-0 fw-bolder">
@@ -60,13 +54,17 @@ const Profile = () => {
                                  src="../images/nasa-3.png"/>
                         </div>
                     </div>
-                    <Link to="/profile/edit"
-                          className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
-                        Edit profile
-                    </Link>
-                    <button onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
-                        Logout
-                    </button>
+                    {currentUser.username === username &&
+                        <>
+                            <Link to="/profile/edit"
+                                  className="mt-2 me-2 btn btn-large btn-light border border-secondary fw-bolder rounded-pill fa-pull-right">
+                                Edit profile
+                            </Link>
+                            <button onClick={logout} className="mt-2 float-end btn btn-warning rounded-pill">
+                                Logout
+                            </button>
+                        </>
+                    }
                 </div>
 
                 <div className="p-2">
@@ -93,17 +91,17 @@ const Profile = () => {
                     <ul className="mt-4 nav nav-pills nav-fill">
                         <li className="nav-item">
                             <Link to="/profile/mytuits"
-                                  className={`nav-link ${location.pathname.indexOf('mytuits') >= 0 ? 'active':''}`}>
+                                  className={`nav-link ${location.pathname.indexOf('mytuits') >= 0 ? 'active' : ''}`}>
                                 Tuits</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/profile/mylikes"
-                                  className={`nav-link ${location.pathname.indexOf('mylikes') >= 0 ? 'active':''}`}>
+                                  className={`nav-link ${location.pathname.indexOf('mylikes') >= 0 ? 'active' : ''}`}>
                                 Likes</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/profile/mydislikes"
-                                  className={`nav-link ${location.pathname.indexOf('dislikes') >= 0 ? 'active':''}`}>
+                                  className={`nav-link ${location.pathname.indexOf('dislikes') >= 0 ? 'active' : ''}`}>
                                 Dislikes</Link>
                         </li>
                     </ul>
